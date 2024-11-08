@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="bilder/TTT.png">
+    <title>Tic Tac Toe</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            font-size: 100px;
+        }
+
+        #reset-button {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+     <link rel="stylesheet" href="css/TTT.css">
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <td id="0"></td>
+            <td id="1"></td>
+            <td id="2"></td>
+        </tr>
+        <tr>
+            <td id="3"></td>
+            <td id="4"></td>
+            <td id="5"></td>
+        </tr>
+        <tr>
+            <td id="6"></td>
+            <td id="7"></td>
+            <td id="8"></td>
+        </tr>
+    </table>
+
+    <button id="reset-button">Reset</button>
+
+    <script>
+        let turn = "X";
+        let gameFinished = false;
+
+        function handleClick(event) {
+            if (gameFinished) {
+                return;
+            }
+
+            const element = event.target;
+            if (element.textContent !== "") {
+                return;
+            }
+
+            element.textContent = turn;
+
+            if (checkForWin()) {
+                alert(`Player ${turn} wins!`);
+                gameFinished = true;
+            }
+
+            turn = turn === "X" ? "O" : "X";
+        }
+
+        function checkForWin() {
+            const elements = document.getElementsByTagName("td");
+            for (let i = 0; i < 3; i++) {
+                const row = [elements[i * 3], elements[i * 3 + 1], elements[i * 3 + 2]];
+                if (row.every(element => element.textContent === turn)) {
+                    return true;
+                }
+            }
+
+            for (let i = 0; i < 3; i++) {
+                const column = [elements[i], elements[i + 3], elements[i + 6]];
+                if (column.every(element => element.textContent === turn)) {
+                    return true;
+                }
+            }
+
+            const diagonal1 = [elements[0], elements[4], elements[8]];
+            const diagonal2 = [elements[2], elements[4], elements[6]];
+            if (
+                diagonal1.every(element => element.textContent === turn) ||
+                diagonal2.every(element => element.textContent === turn)
+            ) {
+                return true;
+            }
+
+            return false;
+        }
+
+        const elements = document.getElementsByTagName("td");
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].addEventListener("click", handleClick);
+        }
+
+        document.getElementById("reset-button").addEventListener("click", function() {
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].textContent = "";
+            }
+            turn = "X";
+            gameFinished = false;
+        });
+    </script>
+
+<div style="text-align: center; padding: 20px;">
+    <a href="Games copy.html" style="text-decoration: none; background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px;">Back to Games</a>
+</div>
+</body>
+
+</html>
+
+
+
